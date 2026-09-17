@@ -1,0 +1,4 @@
+{$WORKSHOP_HOST} {
+    reverse_proxy app:8787
+    header Strict-Transport-Security "max-age=31536000"
+}

@@ -1,0 +1,11 @@
+.env
+.env.*
+.agentforge
+.venv
+.git
+__pycache__
+.pytest_cache
+.ruff_cache
+dist
+workshop
+examples

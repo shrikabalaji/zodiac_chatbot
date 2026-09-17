@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080e13">
+  <title>AgentForge — JARVIS Command Center</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/brain.js" defer></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <dialog id="login-dialog"><h2>Your team workspace.</h2><p>Use the team ID and private access code provided by your facilitator.</p><form id="login-form"><label for="login-team">Team ID</label><input id="login-team" required maxlength="48" autocomplete="username"><label for="login-code">Access code</label><input id="login-code" type="password" required autocomplete="current-password"><p id="login-error" role="alert"></p><button class="primary" type="submit">Sign in →</button></form></dialog>
+  <div class="ambient" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="AgentForge home"><span class="reactor-dot" aria-hidden="true"></span><span class="brand-mark">A<span>F</span></span><span>AGENTFORGE<small>J.A.R.V.I.S. EDITION</small></span></a>
+    <div class="top-center"><i class="status-light"></i> CROSS-FUNCTIONAL COMMAND CENTER <span class="version">/ 01</span></div>
+    <div class="top-actions"><span id="voice-state">STANDBY</span><button id="provider" class="mode-badge">CONNECTING</button><time id="clock"></time><button id="sign-out" class="text-button hidden">Sign out</button><button id="settings-button" class="icon-button" aria-label="Connection settings">⚙</button></div>
+  </header>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="workspace-label">WORKSPACE <span>LOCAL</span></div>
+      <form id="team-form" class="team-form"><label class="sr-only" for="team">Team workspace</label><input id="team" maxlength="48" pattern="[a-zA-Z0-9_-]+" value="liba-team-01" required><button aria-label="Switch team workspace" title="Switch team">↗</button></form>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button data-view="command" class="active"><span>⌘</span> Command center <span class="nav-arrow">↗</span></button>
+        <button data-view="memory"><span>▧</span> Memory vault <b id="note-count">0</b></button>
+        <button data-view="archive"><span>◷</span> Run archive <b id="run-count">0</b></button>
+        <button data-view="workshop"><span>⟡</span> Workshop lab</button>
+      </nav>
+      <div class="roster-heading"><span>YOUR AGENT TEAM</span><span class="cyan">06</span></div>
+      <div id="roster" class="roster"></div>
+      <div class="sidebar-foot"><div><i class="status-light"></i> MEMORY PERSISTENT</div><p>One shared mission.<br>Six accountable perspectives.</p><span>LIBA / AGENTFORGE 2026</span></div>
+    </aside>
+    <main id="main">
+      <section id="view-command" class="view">
+        <div class="page-heading"><div><div class="eyebrow">MISSION CONTROL <span>/ COMPANY LAUNCH SWARM</span></div><h1>Six minds. <em>One mission.</em></h1><p>Build, coordinate, and challenge your AI business team.</p></div><span class="outline-tag">LANGCHAIN ENGINE</span></div>
+        <div class="mission-bar"><div><span class="micro">ACTIVE SCENARIO</span><h2 id="scenario-name">Project Monsoon</h2><p id="scenario-company">Aster Foods · fictional</p></div><button id="edit-scenario" class="text-button">Edit brief <span>↗</span></button></div>
+        <div class="challenge-row"><span class="micro">INJECT A CHANGE</span><div id="challenges" class="challenge-chips"></div></div>
+        <div class="reactor-stage" id="reactor-stage">
+          <div class="stage-grid" aria-hidden="true"></div>
+          <div class="stage-top"><span><i class="status-light"></i> <span id="swarm-state">SWARM STANDBY</span></span><span id="completed-count">0 / 6 COMPLETE</span></div>
+          <div class="network" aria-label="Six-agent shared-state network">
+            <canvas id="brain-canvas" class="brain-canvas" aria-hidden="true"></canvas>
+            <div class="reactor"><div class="ring ring-outer"></div><div class="ring ring-mid"></div><div class="ring ring-inner"></div><div class="core"><span class="core-orbit">✧</span><strong>J.A.R.V.I.S.</strong><small id="core-state">READY FOR YOUR COMMAND</small><div class="core-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+          </div>
+          <div class="stage-bottom"><span>SHARED STATE <b>↔</b> SPECIALIST HAND-OFFS</span><span id="elapsed">AWAITING FIRST RUN</span></div>
+        </div>
+        <div class="launch-row"><div class="mission-facts"><div><small>LAUNCH BUDGET</small><strong id="budget-value">—</strong></div><div><small>TARGET VOLUME</small><strong id="units-value">—</strong></div><div><small>TIME HORIZON</small><strong id="days-value">—</strong></div></div><button id="run-swarm" class="primary"><span>▶</span> Run launch swarm</button><button id="cancel-run" class="danger hidden">Cancel run</button></div>
+        <div class="section-heading"><h2>Executive decision</h2><div id="exports" class="hidden"><button id="export-md" class="text-button">Export brief ↗</button><button id="export-json" class="text-button">JSON ↗</button></div></div>
+        <div id="decision" class="decision empty"><span class="decision-icon">✧</span><div><h3>Your next move starts here.</h3><p>Run the team to receive a launch recommendation, evidence, risks, and named owners.</p></div></div>
+        <div class="section-heading"><h2>Specialist findings</h2><span class="micro">CLICK A REPORT TO EXPLORE</span></div><div id="report-grid" class="report-grid"></div>
+        <div class="footnote"><span id="mode-explainer">Rehearsal runs use scripted model responses with real LangChain tool execution.</span><span>FICTIONAL WORKSHOP DATA</span></div>
+      </section>
+      <section id="view-memory" class="view hidden">
+        <div class="page-heading"><div><div class="eyebrow">KNOWLEDGE SYSTEMS / TEAM MEMORY</div><h1>The memory <em>vault.</em></h1><p>Give your agents evidence they can retrieve and cite.</p></div></div>
+        <div class="info-bar">Notes are saved to this team’s local workspace. Live providers receive retrieved excerpts. Use fictional workshop material.</div>
+        <form id="note-form" class="panel form-panel"><label for="note-title">Evidence title</label><input id="note-title" maxlength="100" required placeholder="e.g. Customer interview findings"><label for="note-text">Source notes</label><textarea id="note-text" rows="8" maxlength="30000" required placeholder="Paste a brief, meeting transcript, product document, or research notes…"></textarea><div class="form-actions"><label class="secondary file-label">Import .txt / .md<input id="note-file" type="file" accept=".txt,.md" class="sr-only"></label><label class="secondary file-label">Extract image<input id="evidence-image" type="file" accept="image/png,image/jpeg" class="sr-only"></label><button class="primary" type="submit">Save to memory ↗</button></div></form>
+        <div class="section-heading"><h2>Saved evidence</h2><span class="micro">KEYWORD RETRIEVAL · SOURCE EXCERPTS</span></div><div id="notes-list"></div>
+      </section>
+      <section id="view-archive" class="view hidden">
+        <div class="page-heading"><div><div class="eyebrow">MISSION HISTORY / PERSISTENT RUNS</div><h1>Every decision. <em>On record.</em></h1><p>Reopen a run, export its evidence, and compare scenario changes.</p></div></div>
+        <div id="comparison" class="panel hidden"></div><div id="archive-list"></div>
+      </section>
+      <section id="view-workshop" class="view hidden">
+        <div class="page-heading"><div><div class="eyebrow">LIBA / TWO DAYS · EIGHT SESSIONS</div><h1>From first agent <em>to launch.</em></h1><p>Keep the same team workspace across both workshop days.</p></div></div>
+        <div class="lab-grid">
+          <article class="panel"><span class="micro cyan">DAY 01 / BUILD</span><h2>Give each agent a purpose.</h2><ol><li><b>Foundations</b> · Run the baseline. Inspect a tool trace.</li><li><b>Design studio</b> · Open an agent and edit its blueprint.</li><li><b>Domain capability</b> · Change the scenario JSON; inspect your specialist’s worksheet.</li><li><b>Multimodal extension</b> · Try voice input and spoken responses in a supported browser, or import a transcript into Memory Vault.</li></ol></article>
+          <article class="panel"><span class="micro cyan">DAY 02 / ORCHESTRATE</span><h2>Make the team work together.</h2><ol start="5"><li><b>Swarm architecture</b> · Trace Analytics → specialists → Finance → General Management.</li><li><b>Command center</b> · Run all six and verify the shared decision.</li><li><b>Red-team lab</b> · Challenge assumptions, bias and untrusted notes.</li><li><b>Outcome challenge</b> · Inject a change. Rerun, compare and present your evidence.</li></ol></article>
+        </div>
+        <div class="section-heading"><h2>Evidence &amp; governance checks</h2><span class="micro">STRUCTURAL CHECKS ≠ A SAFETY CERTIFICATION</span></div><div id="checks" class="panel">Complete a swarm run to inspect its observable checks.</div>
+        <div class="section-heading"><h2>Outcome assessment</h2><span id="assessment-run" class="micro">SELECT A COMPLETED RUN FIRST</span></div>
+        <form id="assessment-form" class="panel"><p class="muted">Human assessment: rate each criterion from 0 to 5. The proposal’s weights total 100.</p><div id="rubric-fields"></div><label for="reflection">Team reflection and evidence of improvement</label><textarea id="reflection" rows="4" required maxlength="6000" placeholder="What changed? What did your team verify? What remains uncertain?"></textarea><div class="form-actions"><span id="rubric-total" class="cyan"></span><button class="primary" type="submit">Save assessment ↗</button></div></form>
+      </section>
+    </main>
+    <aside class="communication">
+      <div class="comm-heading"><span class="micro">COMMAND CHANNEL</span><i class="status-light"></i></div><div class="comm-identity"><span class="mini-core">✧</span><div><h2>JARVIS is listening.</h2><p id="chat-mode">TYPE A COMMAND TO BEGIN</p></div></div>
+      <label class="sr-only" for="chat-agent">Agent to consult</label><select id="chat-agent"><option value="">JARVIS · command interface</option></select>
+      <div id="transcript" class="transcript" role="log" aria-label="Conversation"></div>
+      <div id="chat-progress" class="micro cyan hidden" role="status">CONSULTING THE TEAM…</div>
+      <form id="chat-form"><label class="sr-only" for="prompt">Your command</label><textarea id="prompt" rows="2" maxlength="6000" placeholder="Ask Jarvis about your mission…" required></textarea><div class="chat-actions"><button id="mic" type="button" class="icon-button" aria-label="Start voice input" title="Voice input">♩</button><label class="voice-toggle"><input id="speak" type="checkbox" checked> Read aloud</label><button id="send" type="submit" aria-label="Send command">↗</button></div></form>
+      <label class="wake-row"><input type="checkbox" id="wake"> Always listen for &ldquo;Jarvis&rdquo;</label>
+      <div class="suggestions"><button data-prompt="Finance, what could block our launch?">Check the budget ↗</button><button data-prompt="Brief me on the latest team decision.">Brief me, Jarvis ↗</button></div>
+      <div class="telemetry-heading"><span class="micro">LIVE TOOL ACTIVITY</span><span id="event-count">00</span></div><div id="telemetry" class="telemetry" role="log" aria-label="Tool activity"><p class="muted">Tool calls and agent hand-offs appear here as they happen.</p></div>
+      <div class="comm-footer"><span class="status-light"></span> AGENTS ADVISE. HUMANS DECIDE.</div>
+    </aside>
+  </div>
+  <dialog id="inspector"><div class="dialog-header"><span id="inspector-kicker" class="eyebrow"></span><button class="close-dialog icon-button" aria-label="Close agent inspector">×</button></div><div id="inspector-body"></div></dialog>
+  <dialog id="scenario-dialog"><div class="dialog-header"><span class="eyebrow">MISSION PARAMETERS</span><button class="close-dialog icon-button" aria-label="Close scenario editor">×</button></div><h2>Edit the shared brief.</h2><p class="muted">The selected challenge is applied once on top of these base inputs. Candidate inputs accept anonymous skills and work samples only.</p><label for="scenario-json">Validated scenario JSON</label><textarea id="scenario-json" rows="20" spellcheck="false"></textarea><div class="form-actions"><label class="secondary file-label">Import JSON<input id="scenario-file" type="file" accept=".json" class="sr-only"></label><button id="download-scenario" class="secondary">Download template</button><button id="save-scenario" class="primary">Apply scenario ↗</button></div></dialog>
+  <dialog id="settings-dialog"><div class="dialog-header"><span class="eyebrow">REASONING CORE</span><button class="close-dialog icon-button" aria-label="Close connection settings">×</button></div><h2>Choose your engine.</h2><div id="settings-info"></div>
+    <form id="provider-form">
+      <label for="provider-select">Live model</label>
+      <select id="provider-select"><option value="openai">OpenAI</option><option value="ollama">Ollama (local)</option></select>
+      <label for="provider-model">Model name</label>
+      <input id="provider-model" maxlength="200" required placeholder="e.g. gpt-4o-mini or llama3.1">
+      <p class="muted" id="provider-hint">OpenAI needs <code>OPENAI_API_KEY</code> set in <code>.env</code>. Ollama needs a local server running (<code>ollama serve</code>) with the model pulled.</p>
+      <div class="form-actions"><button class="primary" type="submit">Switch engine ↗</button></div>
+    </form>
+    <p class="muted">Switching applies immediately for every team on this server; it does not persist across a restart — the <code>.env</code> file sets what it starts with. Rehearsal mode (only via <code>.env</code>) runs real LangChain tools with scripted responses and no open-ended AI reasoning. The status above records successful live responses since this server started. A failed provider request stays visible and is never replaced with a simulated answer. Browser voice support varies; speech recognition may use your browser’s online service.</p>
+  </dialog>
+  <div id="toast" role="status" class="toast hidden"></div>
+</body>
+</html>
