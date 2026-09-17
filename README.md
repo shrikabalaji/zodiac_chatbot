@@ -2,7 +2,65 @@
 
 **Six minds. One mission.** A JARVIS-styled command center: six LangChain specialists, a LangChain command assistant, and a LangGraph company-launch workflow — running on Ollama or OpenAI.
 
-## Start the app
+## Student quick start (recommended for the workshop)
+
+Prerequisites: Python 3.11–3.13, Git, and Ollama with the class-approved model already downloaded.
+
+### macOS / Linux
+
+```sh
+git clone https://github.com/arthi-rajendran24/liba-workshop-02.git
+cd liba-workshop-02
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+cp .env.example .env
+ollama serve
+```
+
+Keep `ollama serve` running. In a **second terminal**, return to the repo, activate the environment, and launch:
+
+```sh
+cd liba-workshop-02
+source .venv/bin/activate
+python app.py
+```
+
+### Windows PowerShell
+
+```powershell
+git clone https://github.com/arthi-rajendran24/liba-workshop-02.git
+cd liba-workshop-02
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+Copy-Item .env.example .env
+ollama serve
+```
+
+Keep `ollama serve` running. In a **second PowerShell window**, return to the repo, activate the environment, and launch:
+
+```powershell
+cd liba-workshop-02
+.\.venv\Scripts\Activate.ps1
+python app.py
+```
+
+Open **http://127.0.0.1:8787**. If the class uses a different Ollama model, change only `AGENTFORGE_MODEL` in `.env` to the exact installed tag shown by `ollama list`.
+
+### Optional OpenAI route
+
+In `.env`, comment out the two active Ollama lines and enable:
+
+```dotenv
+AGENTFORGE_PROVIDER=openai
+AGENTFORGE_MODEL=gpt-4o-mini
+OPENAI_API_KEY=your-own-key
+```
+
+Never paste an API key into source code, screenshots, chat, or a committed file. Restart `python app.py` after editing `.env`. Ollama and OpenAI can also be switched from the app's Settings dialog once both are configured.
+
+## Alternative uv start
 
 Install [uv](https://docs.astral.sh/uv/getting-started/installation/), clone the repository, then run all commands inside the folder containing `pyproject.toml`:
 
@@ -20,11 +78,11 @@ AGENTFORGE_MODEL=gpt-4o-mini
 OPENAI_API_KEY=your-own-key
 ```
 
-Or run fully local with [Ollama](https://ollama.com) (no key needed — `ollama serve` and `ollama pull llama3.1` first):
+Or run fully local with [Ollama](https://ollama.com) (no key needed — start Ollama and use the exact class-approved tag shown by `ollama list`):
 
 ```dotenv
 AGENTFORGE_PROVIDER=ollama
-AGENTFORGE_MODEL=llama3.1
+AGENTFORGE_MODEL=gemma4:e2b
 ```
 
 Then run:
@@ -33,7 +91,7 @@ Then run:
 uv run agentforge-jarvis web
 ```
 
-Open **http://127.0.0.1:8787**. JARVIS announces itself with a spoken project-status briefing as soon as the UI loads. You can switch between Ollama and OpenAI live from the app's Settings dialog (⚙, top right) without restarting the server. Restart after editing `.env`; existing shell variables take precedence. The app needs no Node.js build, GPU or database server.
+JARVIS announces itself with a spoken project-status briefing as soon as the UI loads. The app needs no Node.js build, GPU, or database server.
 
 Quick-start scripts are included: `./start.sh` (macOS/Linux) and `start.bat` (Windows) run `uv sync` and launch the server in one step.
 
@@ -49,6 +107,10 @@ Quick-start scripts are included: `./start.sh` (macOS/Linux) and `start.bat` (Wi
 | **JARVIS** | General Management | `synthesize_strategy`: reconcile five reports, preserve hold gates, assign owners and produce the executive package |
 
 The additional JARVIS **command interface** is a LangChain agent that can consult specialists, retrieve team notes and read the latest saved run. It is separate from the General Management synthesis agent.
+
+## Replace the six agent instructions
+
+The student-editable prompts are in [`agents/`](agents/README.md). Keep the filenames unchanged, replace their contents with the six agent files created on Day 1, and run the same scenario again. The app reads a file when that agent starts, so the next run uses the saved change. This makes the behavior comparison visible without asking students to edit the orchestration code.
 
 ## Working features
 
@@ -98,9 +160,12 @@ LangGraph workflow (dependency-ordered, sequential)
 
 PULSE, NOVA and ATLAS all receive PRISM's report. LEDGER receives Marketing, HR and Operations reports. General Management receives all five specialist reports. Execution is sequential to keep traces and local resource use predictable; the three specialists do not depend on each other. Two saved runs can execute at once; the queue holds at most eight submitted runs. Agent loops have bounded graph steps and tool calls; provider requests have timeouts. Cancellation takes effect between calls after any active model call returns.
 
-Every domain is constructed with **`langchain.agents.create_agent`**, a role prompt, `read_brief`, its domain tool, and `search_memory`. The command assistant uses the LangChain agent-as-tool pattern. Model instances and transcripts are scoped to each invocation; stored conversation history is scoped to team and agent.
+Every domain is constructed with **`langchain.agents.create_agent`**, a role prompt, mandatory `read_brief` and domain tools, plus optional `search_memory` when relevant notes exist. The command assistant uses the LangChain agent-as-tool pattern. Model instances and transcripts are scoped to each invocation; stored conversation history is scoped to team and agent.
 
 ```text
+app.py                         simple student launch file
+requirements.txt              packages for pip installation
+agents/                        six replaceable Markdown instructions
 src/agentforge_jarvis/
   catalog.py      names, capabilities, rubric
   models.py       validated scenarios and report schemas
@@ -111,6 +176,16 @@ src/agentforge_jarvis/
   app.py          local HTTP API, event stream and input boundaries
   static/         JARVIS HUD (canvas neuron network, chat, mission control) — no CDN dependencies
 ```
+
+The shortest code-reading path is:
+
+1. `app.py` starts the local server.
+2. `catalog.py` defines the six roles and their order.
+3. `agent_prompts.py` reads the six Markdown instruction files.
+4. `providers.py` chooses Ollama or OpenAI.
+5. `engine.py` creates each LangChain agent and connects the LangGraph hand-offs.
+6. `business.py` contains the deterministic tools/calculations.
+7. `app.py` inside the package exposes the HTTP API; `static/` contains the existing UI and browser voice controls.
 
 ## Explicit rehearsal fallback
 

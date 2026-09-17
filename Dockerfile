@@ -4,6 +4,7 @@ WORKDIR /app
 RUN pip install --no-cache-dir uv==0.10.2
 COPY pyproject.toml uv.lock README.md ./
 COPY src ./src
+COPY agents ./agents
 RUN uv sync --frozen --no-dev
 RUN useradd --uid 10001 --create-home app && mkdir /data && chown app:app /data
 USER app

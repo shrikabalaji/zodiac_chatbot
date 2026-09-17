@@ -33,7 +33,7 @@ def gemini_limiter():
 # for .env-based setups (and existing tests) but are not offered in the switcher.
 SWITCHABLE_PROVIDERS = ("ollama", "openai")
 DEFAULT_MODEL = {
-    "ollama": "llama3.1",
+    "ollama": "gemma4:e2b",
     "openai": "gpt-4o-mini",
     "gemini": "gemini-3.1-flash-lite",
 }

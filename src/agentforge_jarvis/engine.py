@@ -11,6 +11,7 @@ from langchain.agents import create_agent
 from langchain_core.tools import tool
 from langgraph.graph import END, START, StateGraph
 
+from .agent_prompts import load_agent_prompt
 from .business import analyze
 from .catalog import AGENTS, ORDER
 from .models import AgentReport, ChatRequest, Domain, RunRequest, Scenario, apply_challenge
@@ -167,7 +168,9 @@ class Engine:
             model=make_model(self.settings, domain),
             tools=[read_brief, analyze_domain, search_memory],
             system_prompt=RULES
-            + f"\nRole: {spec['role']}. Goal: {spec['goal']}.\n"
+            + "\n\nSTUDENT-EDITABLE AGENT INSTRUCTIONS\n"
+            + load_agent_prompt(domain)
+            + f"\n\nCatalog role: {spec['role']}. Catalog goal: {spec['goal']}.\n"
             + "Team blueprint preferences:\n"
             + self.store.blueprint(team, domain),
             name=domain.replace("-", "_"),
@@ -177,7 +180,11 @@ class Engine:
             {"messages": (history or []) + [{"role": "user", "content": task}]},
             {"recursion_limit": 24},
         )
-        required = {"read_brief", "search_memory", spec["tool"]}
+        # The scenario brief and deterministic domain tool are mandatory. Memory is
+        # useful only when the team has saved relevant notes, so a smaller local
+        # model should not fail an otherwise valid run merely for skipping an empty
+        # search.
+        required = {"read_brief", spec["tool"]}
         missing = required - set(called)
         if missing and self.settings.provider != "rehearsal":
             # A live model may finish early. Give it one explicit bounded repair turn.
@@ -189,7 +196,7 @@ class Engine:
                             "role": "user",
                             "content": "Before finalizing, call these missing required tools: "
                             + ", ".join(sorted(missing))
-                            + ". Then return your evidence-based answer. Do not skip the memory search even if it finds no notes.",
+                            + ". Then return your evidence-based answer.",
                         }
                     ]
                 },

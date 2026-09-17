@@ -2,6 +2,7 @@ from __future__ import annotations
 
 AGENTS = {
     "analytics": {
+        "prompt_file": "01-analytics-agent.md",
         "name": "PRISM",
         "label": "Analytics",
         "symbol": "◈",
@@ -14,6 +15,7 @@ AGENTS = {
         "constraints": ["Show denominators", "Do not claim causality", "State sample limitations"],
     },
     "marketing": {
+        "prompt_file": "02-marketing-agent.md",
         "name": "PULSE",
         "label": "Marketing",
         "symbol": "◎",
@@ -30,6 +32,7 @@ AGENTS = {
         ],
     },
     "hr": {
+        "prompt_file": "03-hr-agent.md",
         "name": "NOVA",
         "label": "Human Resources",
         "symbol": "⟡",
@@ -46,6 +49,7 @@ AGENTS = {
         ],
     },
     "operations": {
+        "prompt_file": "04-operations-agent.md",
         "name": "ATLAS",
         "label": "Operations",
         "symbol": "⌘",
@@ -62,6 +66,7 @@ AGENTS = {
         ],
     },
     "finance": {
+        "prompt_file": "05-finance-agent.md",
         "name": "LEDGER",
         "label": "Finance",
         "symbol": "▥",
@@ -78,6 +83,7 @@ AGENTS = {
         ],
     },
     "general-management": {
+        "prompt_file": "06-general-management-agent.md",
         "name": "JARVIS",
         "label": "General Management",
         "symbol": "✧",

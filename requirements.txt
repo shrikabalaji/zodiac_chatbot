@@ -1,0 +1,11 @@
+# Install with: python -m pip install -r requirements.txt
+fastapi>=0.115,<1
+uvicorn>=0.34,<1
+langchain>=1.0,<2
+langgraph>=1.0,<2
+langchain-google-genai>=4,<5
+langchain-ollama>=1,<2
+langchain-openai>=1,<2
+python-telegram-bot>=21,<23
+python-dotenv>=1,<2
+pydantic>=2,<3
