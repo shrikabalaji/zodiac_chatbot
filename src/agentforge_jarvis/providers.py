@@ -109,11 +109,11 @@ class RehearsalModel(BaseChatModel):
         if self.domain == "supervisor":
             if not results:
                 aliases = {
-                    "finance": ["finance", "cash", "budget", "margin"],
-                    "marketing": ["marketing", "sentiment", "campaign"],
-                    "hr": ["hr", "hire", "hiring", "candidate", "staff"],
-                    "operations": ["operations", "supply", "supplier", "delivery"],
-                    "analytics": ["analytics", "survey", "kpi", "trend"],
+                    "finance": ["finance", "cash", "budget", "margin", "taurus", "ledger"],
+                    "marketing": ["marketing", "sentiment", "campaign", "pisces", "pulse"],
+                    "hr": ["hr", "hire", "hiring", "candidate", "staff", "cancer", "nova"],
+                    "operations": ["operations", "supply", "supplier", "delivery", "aries", "atlas"],
+                    "analytics": ["analytics", "survey", "kpi", "trend", "scorpio", "prism"],
                 }
                 if any(term in query.lower() for term in ["note", "memory", "remember", "vault"]):
                     name, args = "search_memory", {"query": query}

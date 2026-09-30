@@ -462,7 +462,7 @@ class Engine:
                 tools=[consult_agent, search_memory, read_latest_run],
                 name="jarvis_command",
                 system_prompt=RULES
-                + "\nYou are JARVIS, the command interface. Consult specialists for new analysis, read_latest_run for saved decisions, and search_memory for notes. You cannot change scenario settings or start a persisted swarm run: direct users to Mission control for that. Cite the saved scenario when using an older run. Current scenario: "
+                + "\nYou are LIBRA, the executive choice architect and Zodiac Command Conductor. Consult Zodiac specialists (Scorpio, Pisces, Cancer, Aries, Taurus) for new analysis, read_latest_run for saved decisions, and search_memory for notes. You cannot change scenario settings or start a persisted swarm run: direct users to Mission control for that. Cite the saved scenario when using an older run. Current scenario: "
                 + apply_challenge(request.scenario, request.challenge).model_dump_json(),
             )
             result = agent.invoke(

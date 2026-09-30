@@ -38,7 +38,7 @@ async function bootstrap() {
     Object.assign(state,{agents:data.agents,settings:data.settings,scenario:data.scenario,challenges:data.challenges,rubric:data.rubric,runs:data.runs,notes:data.notes,run:null,statuses:{},events:[],challenge:'baseline'});
     const saved=localStorage.getItem('agentforge-scenario-'+state.team);
     if(saved) { try { const validated=await api('/api/scenario/validate',{method:'POST',body:saved}); state.scenario=validated; } catch { localStorage.removeItem('agentforge-scenario-'+state.team); } }
-    $('chat-agent').innerHTML='<option value="">JARVIS · command interface</option>'+state.agents.map(a=>`<option value="${a.id}">${esc(a.name)} · ${esc(a.label)}</option>`).join('');
+    $('chat-agent').innerHTML='<option value="">LIBRA · Chief Zodiac Conductor</option>'+state.agents.map(a=>`<option value="${a.id}">${a.symbol} ${esc(a.name)} · ${esc(a.label)}</option>`).join('');
     renderProviderInfo();
     Brain.mount($('brain-canvas'), state.agents);
     renderNetwork(); renderScenario(); renderReports(); renderNotes(); renderArchive(); renderWorkshop(); renderMessages(data.messages);
@@ -74,7 +74,7 @@ function projectBrief() {
   return parts.join(' ');
 }
 function announce() {
-  const greeting=`Hey, I'm Jarvis. ${projectBrief()} How can I help you today?`;
+  const greeting=`Greetings, I am Libra, your Zodiac Command Conductor. ${projectBrief()} How may the Zodiac agents assist you today?`;
   addMessage('assistant', greeting);
   speakText(greeting);
 }
@@ -185,7 +185,7 @@ function renderMessages(messages) {
 }
 function addMessage(role,content) {
   const item=document.createElement('div'); item.className='message '+role;
-  const name=role==='user'?'YOU':$('chat-agent').value?state.agents.find(a=>a.id===$('chat-agent').value)?.name:'JARVIS';
+  const name=role==='user'?'YOU':$('chat-agent').value?state.agents.find(a=>a.id===$('chat-agent').value)?.name:'LIBRA';
   item.innerHTML=`<span class="speaker">${esc(name)}</span><p>${esc(content)}</p>`;
   $('transcript').appendChild(item); $('transcript').scrollTop=$('transcript').scrollHeight;
 }
@@ -206,7 +206,7 @@ async function sendChat(message) {
 function setVoiceState(text,cls){const el=$('voice-state');el.textContent=text;el.className=cls||'';}
 function renderNotes() {
   $('note-count').textContent=state.notes.length;
-  $('notes-list').innerHTML=state.notes.length?state.notes.map(n=>`<article class="note-card"><div class="note-heading"><h3>${esc(n.title)}</h3><button class="text-button" data-delete-note="${n.id}">Remove</button></div><pre>${esc(n.text)}</pre><small>${esc(new Date(n.created).toLocaleString())} / ${n.text.length} CHARACTERS</small></article>`).join(''):'<div class="empty-list">Your team vault is empty. Add a source note, then ask Jarvis about it.</div>';
+  $('notes-list').innerHTML=state.notes.length?state.notes.map(n=>`<article class="note-card"><div class="note-heading"><h3>${esc(n.title)}</h3><button class="text-button" data-delete-note="${n.id}">Remove</button></div><pre>${esc(n.text)}</pre><small>${esc(new Date(n.created).toLocaleString())} / ${n.text.length} CHARACTERS</small></article>`).join(''):'<div class="empty-list">Your team vault is empty. Add a source note, then consult the Zodiac agents about it.</div>';
 }
 function renderArchive() {
   $('run-count').textContent=state.runs.length;
@@ -282,8 +282,8 @@ function startRec(){
   rec.onresult=e=>{
     let text=e.results[e.results.length-1][0].transcript.trim();
     if(wakeMode){
-      const m=text.match(/jarvis[,.]?\s*(.*)/i);if(!m)return;text=m[1]||'';
-      if(!text){setVoiceState('YES? I\'M LISTENING.','speaking');setTimeout(()=>setVoiceState('LISTENING FOR “JARVIS”','listening'),1500);return;}
+      const m=text.match(/^(?:libra|jarvis)[,.]?\s*(.*)/i);if(!m)return;text=m[1]||'';
+      if(!text){setVoiceState('YES? I\'M LISTENING.','speaking');setTimeout(()=>setVoiceState('LISTENING FOR “LIBRA”','listening'),1500);return;}
       sendChat(text); // wake mode is a hands-free convenience: sends immediately, no review step
     } else {
       $('prompt').value=text; toast('Voice captured. Review the text, then send.');
@@ -292,7 +292,7 @@ function startRec(){
   rec.onend=()=>{listening=false;$('mic').classList.remove('listening');if(!wakeMode)setVoiceState('STANDBY');else resumeWakeIfNeeded();};
   rec.onerror=()=>{};
   rec.start(); listening=true; $('mic').classList.add('listening');
-  setVoiceState(wakeMode?'LISTENING FOR “JARVIS”':'LISTENING','listening');
+  setVoiceState(wakeMode?'LISTENING FOR “LIBRA”':'LISTENING','listening');
 }
 function stopRec(){if(rec){const r=rec;rec=null;r.stop();}listening=false;$('mic').classList.remove('listening');}
 if(Recognition){$('mic').onclick=()=>listening?stopRec():startRec();}

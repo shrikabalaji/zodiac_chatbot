@@ -19,3 +19,17 @@ def test_prompt_content_is_loaded_from_markdown():
     assert "PRISM" in load_agent_prompt("analytics")
     assert Path("app.py").is_file()
     assert Path("requirements.txt").is_file()
+
+
+def test_zodiac_agent_catalog():
+    expected = {
+        "analytics": ("SCORPIO", "♏"),
+        "marketing": ("PISCES", "♓"),
+        "hr": ("CANCER", "♋"),
+        "operations": ("ARIES", "♈"),
+        "finance": ("TAURUS", "♉"),
+        "general-management": ("LIBRA", "♎"),
+    }
+    for domain, (name, symbol) in expected.items():
+        assert AGENTS[domain]["name"] == name
+        assert AGENTS[domain]["symbol"] == symbol

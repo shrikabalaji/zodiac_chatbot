@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#080e13">
-  <title>AgentForge — JARVIS Command Center</title>
+  <title>AgentForge — Zodiac Command Center</title>
   <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/static/style.css">
   <script src="/static/brain.js" defer></script>
@@ -14,8 +14,8 @@
   <div class="ambient" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
   <header class="topbar">
-    <a class="brand" href="/" aria-label="AgentForge home"><span class="reactor-dot" aria-hidden="true"></span><span class="brand-mark">A<span>F</span></span><span>AGENTFORGE<small>J.A.R.V.I.S. EDITION</small></span></a>
-    <div class="top-center"><i class="status-light"></i> CROSS-FUNCTIONAL COMMAND CENTER <span class="version">/ 01</span></div>
+    <a class="brand" href="/" aria-label="AgentForge home"><span class="reactor-dot" aria-hidden="true"></span><span class="brand-mark">Z<span>S</span></span><span>AGENTFORGE<small>ZODIAC · LIBRA EDITION</small></span></a>
+    <div class="top-center"><i class="status-light"></i> ZODIAC SWARM COMMAND CENTER <span class="version">/ LIBRA</span></div>
     <div class="top-actions"><span id="voice-state">STANDBY</span><button id="provider" class="mode-badge">CONNECTING</button><time id="clock"></time><button id="sign-out" class="text-button hidden">Sign out</button><button id="settings-button" class="icon-button" aria-label="Connection settings">⚙</button></div>
   </header>
   <div class="shell">
@@ -28,13 +28,13 @@
         <button data-view="archive"><span>◷</span> Run archive <b id="run-count">0</b></button>
         <button data-view="workshop"><span>⟡</span> Workshop lab</button>
       </nav>
-      <div class="roster-heading"><span>YOUR AGENT TEAM</span><span class="cyan">06</span></div>
+      <div class="roster-heading"><span>ZODIAC AGENT TEAM</span><span class="cyan">06</span></div>
       <div id="roster" class="roster"></div>
-      <div class="sidebar-foot"><div><i class="status-light"></i> MEMORY PERSISTENT</div><p>One shared mission.<br>Six accountable perspectives.</p><span>LIBA / AGENTFORGE 2026</span></div>
+      <div class="sidebar-foot"><div><i class="status-light"></i> MEMORY PERSISTENT</div><p>One shared mission.<br>Six Zodiac perspectives.</p><span>LIBA / AGENTFORGE 2026</span></div>
     </aside>
     <main id="main">
       <section id="view-command" class="view">
-        <div class="page-heading"><div><div class="eyebrow">MISSION CONTROL <span>/ COMPANY LAUNCH SWARM</span></div><h1>Six minds. <em>One mission.</em></h1><p>Build, coordinate, and challenge your AI business team.</p></div><span class="outline-tag">LANGCHAIN ENGINE</span></div>
+        <div class="page-heading"><div><div class="eyebrow">ZODIAC MISSION CONTROL <span>/ CELESTIAL SWARM</span></div><h1>Six minds. <em>One Zodiac constellation.</em></h1><p>Coordinate your Zodiac agents: Aries, Taurus, Cancer, Libra, Scorpio, and Pisces.</p></div><span class="outline-tag">LANGCHAIN ENGINE</span></div>
         <div class="mission-bar"><div><span class="micro">ACTIVE SCENARIO</span><h2 id="scenario-name">Project Monsoon</h2><p id="scenario-company">Aster Foods · fictional</p></div><button id="edit-scenario" class="text-button">Edit brief <span>↗</span></button></div>
         <div class="challenge-row"><span class="micro">INJECT A CHANGE</span><div id="challenges" class="challenge-chips"></div></div>
         <div class="reactor-stage" id="reactor-stage">
@@ -42,13 +42,13 @@
           <div class="stage-top"><span><i class="status-light"></i> <span id="swarm-state">SWARM STANDBY</span></span><span id="completed-count">0 / 6 COMPLETE</span></div>
           <div class="network" aria-label="Six-agent shared-state network">
             <canvas id="brain-canvas" class="brain-canvas" aria-hidden="true"></canvas>
-            <div class="reactor"><div class="ring ring-outer"></div><div class="ring ring-mid"></div><div class="ring ring-inner"></div><div class="core"><span class="core-orbit">✧</span><strong>J.A.R.V.I.S.</strong><small id="core-state">READY FOR YOUR COMMAND</small><div class="core-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+            <div class="reactor"><div class="ring ring-outer"></div><div class="ring ring-mid"></div><div class="ring ring-inner"></div><div class="core"><span class="core-orbit">♎</span><strong>L.I.B.R.A.</strong><small id="core-state">ZODIAC COMMAND NEXUS</small><div class="core-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
           </div>
-          <div class="stage-bottom"><span>SHARED STATE <b>↔</b> SPECIALIST HAND-OFFS</span><span id="elapsed">AWAITING FIRST RUN</span></div>
+          <div class="stage-bottom"><span>SHARED STATE <b>↔</b> ZODIAC SPECIALIST HAND-OFFS</span><span id="elapsed">AWAITING FIRST RUN</span></div>
         </div>
         <div class="launch-row"><div class="mission-facts"><div><small>LAUNCH BUDGET</small><strong id="budget-value">—</strong></div><div><small>TARGET VOLUME</small><strong id="units-value">—</strong></div><div><small>TIME HORIZON</small><strong id="days-value">—</strong></div></div><button id="run-swarm" class="primary"><span>▶</span> Run launch swarm</button><button id="cancel-run" class="danger hidden">Cancel run</button></div>
         <div class="section-heading"><h2>Executive decision</h2><div id="exports" class="hidden"><button id="export-md" class="text-button">Export brief ↗</button><button id="export-json" class="text-button">JSON ↗</button></div></div>
-        <div id="decision" class="decision empty"><span class="decision-icon">✧</span><div><h3>Your next move starts here.</h3><p>Run the team to receive a launch recommendation, evidence, risks, and named owners.</p></div></div>
+        <div id="decision" class="decision empty"><span class="decision-icon">♎</span><div><h3>Your next move starts here.</h3><p>Run the team to receive a launch recommendation, evidence, risks, and named owners.</p></div></div>
         <div class="section-heading"><h2>Specialist findings</h2><span class="micro">CLICK A REPORT TO EXPLORE</span></div><div id="report-grid" class="report-grid"></div>
         <div class="footnote"><span id="mode-explainer">Rehearsal runs use scripted model responses with real LangChain tool execution.</span><span>FICTIONAL WORKSHOP DATA</span></div>
       </section>
@@ -74,15 +74,15 @@
       </section>
     </main>
     <aside class="communication">
-      <div class="comm-heading"><span class="micro">COMMAND CHANNEL</span><i class="status-light"></i></div><div class="comm-identity"><span class="mini-core">✧</span><div><h2>JARVIS is listening.</h2><p id="chat-mode">TYPE A COMMAND TO BEGIN</p></div></div>
-      <label class="sr-only" for="chat-agent">Agent to consult</label><select id="chat-agent"><option value="">JARVIS · command interface</option></select>
+      <div class="comm-heading"><span class="micro">ZODIAC COMMAND CHANNEL</span><i class="status-light"></i></div><div class="comm-identity"><span class="mini-core">♎</span><div><h2>LIBRA is listening.</h2><p id="chat-mode">ZODIAC CONSTELLATION INTERFACE</p></div></div>
+      <label class="sr-only" for="chat-agent">Agent to consult</label><select id="chat-agent"><option value="">LIBRA · Chief Zodiac Conductor</option></select>
       <div id="transcript" class="transcript" role="log" aria-label="Conversation"></div>
-      <div id="chat-progress" class="micro cyan hidden" role="status">CONSULTING THE TEAM…</div>
-      <form id="chat-form"><label class="sr-only" for="prompt">Your command</label><textarea id="prompt" rows="2" maxlength="6000" placeholder="Ask Jarvis about your mission…" required></textarea><div class="chat-actions"><button id="mic" type="button" class="icon-button" aria-label="Start voice input" title="Voice input">♩</button><label class="voice-toggle"><input id="speak" type="checkbox" checked> Read aloud</label><button id="send" type="submit" aria-label="Send command">↗</button></div></form>
-      <label class="wake-row"><input type="checkbox" id="wake"> Always listen for &ldquo;Jarvis&rdquo;</label>
-      <div class="suggestions"><button data-prompt="Finance, what could block our launch?">Check the budget ↗</button><button data-prompt="Brief me on the latest team decision.">Brief me, Jarvis ↗</button></div>
+      <div id="chat-progress" class="micro cyan hidden" role="status">CONSULTING THE ZODIAC TEAM…</div>
+      <form id="chat-form"><label class="sr-only" for="prompt">Your command</label><textarea id="prompt" rows="2" maxlength="6000" placeholder="Ask Libra or consult a Zodiac agent (Aries, Taurus, Cancer, Scorpio, Pisces)…" required></textarea><div class="chat-actions"><button id="mic" type="button" class="icon-button" aria-label="Start voice input" title="Voice input">♩</button><label class="voice-toggle"><input id="speak" type="checkbox" checked> Read aloud</label><button id="send" type="submit" aria-label="Send command">↗</button></div></form>
+      <label class="wake-row"><input type="checkbox" id="wake"> Always listen for &ldquo;Libra&rdquo;</label>
+      <div class="suggestions"><button data-prompt="Taurus, what could block our launch?">Check budget (Taurus) ↗</button><button data-prompt="Scorpio, audit our analytics signals.">Audit evidence (Scorpio) ↗</button></div>
       <div class="telemetry-heading"><span class="micro">LIVE TOOL ACTIVITY</span><span id="event-count">00</span></div><div id="telemetry" class="telemetry" role="log" aria-label="Tool activity"><p class="muted">Tool calls and agent hand-offs appear here as they happen.</p></div>
-      <div class="comm-footer"><span class="status-light"></span> AGENTS ADVISE. HUMANS DECIDE.</div>
+      <div class="comm-footer"><span class="status-light"></span> ZODIAC AGENTS ADVISE. HUMANS DECIDE.</div>
     </aside>
   </div>
   <dialog id="inspector"><div class="dialog-header"><span id="inspector-kicker" class="eyebrow"></span><button class="close-dialog icon-button" aria-label="Close agent inspector">×</button></div><div id="inspector-body"></div></dialog>

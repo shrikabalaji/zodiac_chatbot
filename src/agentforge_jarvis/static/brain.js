@@ -155,23 +155,27 @@ const Brain = (() => {
     }
   }
   function drawNodes() {
-    ctx.font = '9px ui-monospace, monospace';
-    ctx.textAlign = 'center';
     for (const n of nodes) {
       const p = nodePos(n);
       const col = statusColor(n);
       const pu = 0.5 + 0.5 * Math.sin(t * 2 + n.angle * 9);
-      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 13);
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 16);
       g.addColorStop(0, `rgba(${col},${0.7 + n.burst})`);
-      g.addColorStop(0.5, `rgba(${col},0.2)`);
+      g.addColorStop(0.5, `rgba(${col},0.25)`);
       g.addColorStop(1, `rgba(${col},0)`);
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, 13, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, 16, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = `rgba(${col},0.95)`;
-      ctx.beginPath(); ctx.arc(p.x, p.y, 3 + pu + n.burst * 2.5, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = `rgba(${col},0.5)`; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.arc(p.x, p.y, 7 + n.burst * 3, 0, Math.PI * 2); ctx.stroke();
-      ctx.fillStyle = `rgba(${col},0.85)`;
-      ctx.fillText(n.symbol + ' ' + n.name, p.x, p.y + (p.y < CY ? -13 : 20));
+      ctx.beginPath(); ctx.arc(p.x, p.y, 3.5 + pu + n.burst * 2.5, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = `rgba(${col},0.55)`; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(p.x, p.y, 8 + n.burst * 3, 0, Math.PI * 2); ctx.stroke();
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 12px "Segoe UI Symbol", "Apple Color Emoji", ui-monospace, sans-serif';
+      ctx.fillStyle = `rgba(${col},1)`;
+      const yOffset = p.y < CY ? -14 : 22;
+      ctx.fillText(`${n.symbol} ${n.name}`, p.x, p.y + yOffset);
+      ctx.font = '8px ui-monospace, monospace';
+      ctx.fillStyle = 'rgba(165,195,210,0.8)';
+      ctx.fillText(n.label, p.x, p.y + yOffset + (p.y < CY ? -11 : 11));
     }
   }
 
